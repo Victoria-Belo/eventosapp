@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html xmlns="http://thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  lang="pt-br">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>Eventos | Cadastrar </title>
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link th:href="@{/css/materialize.css}" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link th:href="@{/css/style.css}" type="text/css" rel="stylesheet" media="screen,projection"/>  
+  <link rel="shortcut icon" href="/images/favicon-32x32.png"> 
+  <link th:href="@{/css/menu.css}" type="text/css" rel="stylesheet">
+  <style>	
+  </style>
+</head>
+<body>
+  <div class = "container-xl">
+  	<img class="mySlides" th:src="@{/images/peakpx.jpg}" style="width:100%">
+  	<img class="mySlides" th:src="@{/images/peakpx_02.jpg}" style="width:100%">
+  	<img class="mySlides" th:src="@{/images/peakpx_03.jpg}" style="width:100%">
+  	<img class="mySlides" th:src="@{/images/peakpx_04.jpg}" style="width:100%">
+  </div>
+  <div id="container">   		
+  	<ul id ="menu">  	  	
+		<li>
+		  <a href="/ ">Home</a>
+		  <ul>
+		  	<li><a href="#">Registrar</a></li>
+		  	<li><a href="/lista/evento">Eventos</a></li>
+		   </ul>
+		 </li>  
+		 <li>  		 
+		 <li>
+		  <a href="#">Sobre</a>  		 
+		 </li>  		
+  	</ul><!--final menu -->  
+  </div>
+  <div class="section no-pad-bot " id="index-banner">
+    <div class="container center" id="formulario"><br>
+    <h4>Evento</h4>
+    <h6>Registre todos os eventos incríveis que ocorrerão!</h6>
+     	<div >
+	     	<th:block th:include="MensagemValidacao"></th:block>
+			<form method="post">
+				Nome: <input type="text" value="" name="nome" style="width: 600px;"><br>
+				Local: <input type="text" value="" name="local" style="width: 600px;"><br>
+				Data: <input type="date" value="" name="data" style="width: 290px;">
+				Horário: <input type="time" value="" name="horario" style="width: 250px;"><br><br>		
+				<button class="waves-effect waves-light btn" id="btn" type="submit" style="margin-right:80px; opacity: 1;">Salvar</button>			
+			</form><br>	
+			<a class="waves-effect waves-light btn" id="btn" href="/ "  name="Voltar" style="margin-left:150px; margin-top: -107.5px; opacity: 1;">Voltar</a>
+		</div>
+      <br><br>
+    </div>    
+  </div><br><br>  
+    <div class="page-footer #000000 black ">
+      <div class="container center">
+       Victória Belo
+      </div>
+  </div>  
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script th:src="@{/js/materialize.js}"></script>
+  <script th:src="@{/js/init.js}"></script>
+  <script type="text/javascript" th:src="@{/js/slide.js}"></script>
+ <script >
+
+ </script>
+  
+  </body>
+</html>

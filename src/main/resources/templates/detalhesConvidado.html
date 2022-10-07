@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns="http://thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  lang="pt-br">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>convidado | Participantes </title>
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link th:href="@{/css/materialize.css}" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link th:href="@{/css/style.css}" type="text/css" rel="stylesheet" media="screen,projection"/>  
+  <link rel="shortcut icon" href="/images/favicon-32x32.png"> 
+  <link th:href="@{/css/menu.css}" type="text/css" rel="stylesheet">
+  <style>	
+  </style>
+</head>
+<body>
+  <div class = "container-xl">
+  	<img class="mySlides" th:src="@{/images/peakpx.jpg}" >
+  	<img class="mySlides" th:src="@{/images/peakpx_02.jpg}" >
+  	<img class="mySlides" th:src="@{/images/peakpx_03.jpg}" >
+  	<img class="mySlides" th:src="@{/images/peakpx_04.jpg}" >
+  </div>
+  <div id="container">   		
+  	<ul id ="menu">  	  	
+		<li>
+		  <a href="/ ">Home</a>
+		  <ul>
+		  	<li><a href="#">Registrar</a></li>
+		  	<li><a href="/lista/evento">Eventos</a></li>
+		   </ul>
+		 </li>  
+		 <li>  		 
+		 <li>
+		  <a href="#">Sobre</a>  		 
+		 </li>  		
+  	</ul><!--final menu -->  
+  </div>
+  <div class="container-xl" style="left: 100px;">
+  <div class="section no-pad-bot left " id="index-banner">
+    <div class="container center" style="border-radius: 15px; background-color: rgb(193, 193, 215); width:500px; height: 500px"  ><br>
+    <h4>Evento</h4><hr>
+    <h6></h6>
+     	<div th:each="evento : ${evento}" class="container">			
+			<div class="row">
+				<p><span th:text="${evento.nome}"></span></p>
+				<p><span th:text="${evento.local}"></span></p>
+				<p><span th:text="${evento.data}"></span></p>
+				<p><span th:text="${evento.horario}"></span></p>
+			</div>			
+		  <th:block th:include="MensagemValidacao"></th:block>
+		  <form method="post"  >
+			<b>Convidado</b><input type="text" value="" name= "nomeConvidado" />
+			<b>RG</b> <input  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type="number" value="" name = "rg" maxlength="11"/>
+			<button class="waves-effect waves-light btn-small"  id="btn" type="submite" style="left: 55px;">Adicionar</button>
+		 </form><br>	
+   		 <a class="waves-effect waves-light btn-small" id="btn" href="/lista/evento"  name="Voltar" style="bottom: 55px; right:50px;">Voltar</a>	
+   
+       </div>    
+     </div><br><br>      
+   </div>     
+  <div class="container center" style="border-radius: 15px; background-color: rgb(255, 255, 255); margin-right:200px; margin-top: 16px;width:800px; height: 500px;" >
+      <br><h4>Lista de Convidado</h4><hr>
+       <div class="container">
+       	<table class="container-lg" >				
+			  <thead>
+				<tr>
+				  <th>Convidado</th>
+				  <th class="center">RG</th>
+				  <th>Deletar</th>
+				</tr>
+			  </thead>
+			 <tbody>
+				 <tr th:each="convidado : ${convidados}"> 
+				 	<td><span th:text="${convidado.nomeConvidado}" maxlenght=></span></td>
+				 	<td><span th:text="${convidado.rg}"></span></td>	
+					<td><a th:href="${(#mvc.url('EC#deletarConvidado').arg(0, convidado.id)).build()}"><i class="material-icons left">delete</i></a></td>
+				 </tr>
+			</tbody>	
+		  </table><br><br><br><br><br> 	 	      
+   	    </div>
+   	    
+   	    <div aria-label="Pagination-sm #4a148c purple darken-4" th:if="${convidado.totalPages gt 0}">
+		    <ul class="pagination">
+			   <li class="page-item" th:classappend="${convidado.number eq 0} ? 'disabled'" >
+	            <a class="page-link"
+	               th:href="@{/lista/convidado/{cod}?page={id}(id=${convidado.number lt 2 ? 1 : convidado.number}, cod=${evento.cod})}"
+	               aria-label="Previous" title="Anterior" data-toggle="tooltip">              
+			    <i class="material-icons">chevron_left</i></a></li>
+			    
+			    <li class="page-item" th:classappend="${i eq convidado.number + 1} ? 'active'"
+	            th:each="i : ${#numbers.sequence( 1, convidado.totalPages, 1)}">
+	            <a class="page-link" th:href="@{/lista/convidado/{cod}?page={id} (id=${i}, cod= ${evento.cod}) }" th:text="${i}"
+	               th:title="${'Page '+ i}" data-toggle="tooltip">1</a></li>
+			    
+			    <li class="page-item" th:classappend="${convidado.number + 1 eq convidado.totalPages} ? 'disabled'">
+	            <a class="page-link" th:if="${convidado.number + 1 < convidado.totalPages}"
+	               th:href="@{/lista/convidado/{cod}?page={id}(id=${convidado.number + 2}, cod=${evento.cod})}"
+	               aria-label="Next" title="Próximo" data-toggle="tooltip"><i class="material-icons">chevron_right</i></a></li>		   </ul>
+		</div>
+	  </div>  
+	 </div>		
+    <div class="page-footer #000000 black ">
+      <div class="container center">
+       Victória Belo
+      </div>
+    </div>  
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script th:src="@{/js/materialize.js}"></script>
+  <script th:src="@{/js/init.js}"></script>
+  <script type="text/javascript" th:src="@{/js/slide.js}"></script>
+ <script>	
+ </script>
+  
+</body>
+</html>
