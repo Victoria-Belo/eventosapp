@@ -1,1 +1,1 @@
-war:deploy target/eventosapp.war
+heroku war:deploy target/eventosapp.war --app eventosapp
