@@ -111,7 +111,7 @@ public class EventoController {
 			er.save(evento);					
 			attributes.addFlashAttribute("mensagem","Cadastro realizado com êxito!");
 		}		
-		return "redirect:/lista/evento";
+		return "redirect:lista/evento";
 	}
 	
 	
@@ -176,7 +176,7 @@ public class EventoController {
 		} catch (Exception e) {			
 			attributes.addFlashAttribute("mensagem","Este RG já está em uso!");			
 		}	
-		return "redirect:/lista/convidado/{cod}";
+		return "redirect:lista/convidado/{cod}";
 	}
 	
 	@RequestMapping("/deletarConvidado")
@@ -187,7 +187,7 @@ public class EventoController {
 		Evento evento = convidado.getEvento(); //acessar codigo do evento
 		long codigoEvento = evento.getCod();
 		String codEv = "" + codigoEvento;
-		return "redirect:/lista/convidado/" + codEv;
+		return "redirect:lista/convidado/" + codEv;
 		
 	}
 	
