@@ -1,1 +1,1 @@
-war:deploy target/eventosapp.war --app eventosapp
+war:deploy target/eventosapp.war 
