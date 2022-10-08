@@ -58,7 +58,7 @@ public class EventoController {
 			er.save(evento); //persistindo os dados utilizando a classe
 			attributes.addFlashAttribute("mensagem", " Cadastro feito com sucesso! ");
 		}
-			return "/evento";
+			return "evento";
 	}
 	
 	@RequestMapping(value="/lista/evento", method=RequestMethod.GET)
