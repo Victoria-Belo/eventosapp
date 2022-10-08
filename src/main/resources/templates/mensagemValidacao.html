@@ -10,7 +10,7 @@
 </head>
 
 <body>
-	<div class= "#ef5350 red lighten-1" 
+	<div class= "#ef5350 red lighten-1" th:fragment="mensagemValidacao"
 	role="alert" th:if="${not #lists.isEmpty(mensagem)}" id="principal">
 		<center><b><span th:text="${mensagem}"></span></b></center>
 	</div>
