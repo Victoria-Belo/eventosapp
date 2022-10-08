@@ -111,7 +111,7 @@ public class EventoController {
 			er.save(evento);					
 			attributes.addFlashAttribute("mensagem","Cadastro realizado com êxito!");
 		}		
-		return "redirect:lista/evento";
+		return "redirect:/lista/evento";
 	}
 	
 	
