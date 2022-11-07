@@ -42,9 +42,10 @@
     <div class="container center" id="formulario"><br>
     <h4>Evento</h4>
     <h6>Registre todos os eventos incríveis que ocorrerão!</h6>
-     	<div >
-	     	<th:block th:include="MensagemValidacao :: mensagemValidacao"></th:block>
-			<form method="post">
+    
+     	<div>	   
+     	<th:block th:include="MensagemValidacao"></th:block>			
+     	<form method="post">
 				Nome: <input type="text" value="" name="nome" style="width: 600px;"><br>
 				Local: <input type="text" value="" name="local" style="width: 600px;"><br>
 				Data: <input type="date" value="" name="data" style="width: 290px;">

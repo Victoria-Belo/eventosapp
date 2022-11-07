@@ -65,8 +65,7 @@ public class Evento implements Serializable { //Interface que faz com que Genera
 	}
 	public void setHorario(String horario) {
 		this.horario = horario;
-	}
-		
+	}		
 	
 	public List<Convidado> getConvidado() {
 		return convidado;

@@ -1,20 +1,17 @@
 package com.eventosapp.eventosapp.controllers;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.hibernate.mapping.PrimaryKey;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -51,14 +48,23 @@ public class EventoController {
 	@RequestMapping(value="/cadastrar/evento", method=RequestMethod.POST)
 	public String form(@Valid Evento evento, BindingResult result, RedirectAttributes attributes ) {
 		System.out.println(evento);
-		if (result.hasErrors()) {
-			attributes.addFlashAttribute("mensagem", " Campos vazios, favor preencher corretamente! ");
-			//System.out.println("Erro ao tentar salvar dados de evento!");
-		}else {
-			er.save(evento); //persistindo os dados utilizando a classe
-			attributes.addFlashAttribute("mensagem", " Cadastro feito com sucesso! ");
+		
+		try {
+			
+			if (result.hasErrors()) {
+				
+				attributes.addFlashAttribute("mensagem", " Campos vazios, favor preencher corretamente! ");
+				
+			}else {
+				
+				er.save(evento); //persistindo os dados utilizando a classe
+				attributes.addFlashAttribute("mensagem", " Cadastro feito com sucesso! ");
+			}
+			
+		} catch (Exception e) {
+			attributes.addFlashAttribute("mensagem", " ERRO INTERNO! ");
 		}
-			return "evento";
+		return "redirect:/cadastrar/evento";
 	}
 	
 	@RequestMapping(value="/lista/evento", method=RequestMethod.GET)
@@ -75,13 +81,13 @@ public class EventoController {
             size = Integer.parseInt(request.getParameter("size"));
         }
         
-        model.addAttribute("eventos", ep.findAll(PageRequest.of(page, size)));      
+        model.addAttribute("eventos", ep.findAll(PageRequest.of(page, size)));  
+        
         System.out.println("--->" + ep);
 		
 		return "listaEvento" ;
 		
-	}		
-	
+	}			
 	
 	
 	@RequestMapping(value="lista/evento/{cod}", method=RequestMethod.GET)
@@ -96,9 +102,7 @@ public class EventoController {
 		mv.addObject("convidados", convidados);
 		
 		return mv;
-	}
-	
-	
+	}	
 	
 	@RequestMapping(value="lista/evento/{cod}", method=RequestMethod.POST)
 	public String detalhesEventoPost(@PathVariable ("cod") long cod, @Valid Evento evento, BindingResult result, RedirectAttributes attributes) {
@@ -112,8 +116,7 @@ public class EventoController {
 			attributes.addFlashAttribute("mensagem","Cadastro realizado com êxito!");
 		}		
 		return "redirect:/lista/evento";
-	}
-	
+	}	
 	
 	/*@RequestMapping(value="lista/convidado/{cod}", method=RequestMethod.GET)
 	public ModelAndView detalhesConvidado( @PathVariable ("cod") long cod, Model model) {
@@ -133,12 +136,17 @@ public class EventoController {
 	
 	@RequestMapping(value = "lista/convidado/{cod}", method = RequestMethod.GET )
 	public String detalhesConvidado(@PathVariable ("cod") long cod, HttpServletRequest request, Model model) {
-		
+		//esta é uma paginação ManyToOne e foi trabalhosa
+		//foi necessário criar no CP uma Page (NÃO UMA LIST OU ITERABLE) do tipo Convidado para buscar todos os eventos
+		//para isso, precisei do ID do evento
+		//depois usei este dado para puxar o evento por ID e finalmente encontrar os convidados
+		int page = 0; 
+        int size = 3;
 		Evento evento = er.findByCod(cod);		
-		List<Convidado> convidados= evento.getConvidado(); //pegar convidados APENAS do evento selecionado
-		
-		int page = 0; //default page number is 0 (yes it is weird)
-        int size = 3; //default page size is 10
+		Iterable<Convidado>  lista = cr.findByEvento(evento);
+		List<Convidado> listaConvidados = new ArrayList<>(); 
+		lista.forEach(listaConvidados :: add);
+		System.out.println("LISTA_CONVIDADOS: " + lista);		
         
         if (request.getParameter("page") != null && !request.getParameter("page").isEmpty()) {
             page = Integer.parseInt(request.getParameter("page")) - 1;
@@ -146,37 +154,62 @@ public class EventoController {
 
         if (request.getParameter("size") != null && !request.getParameter("size").isEmpty()) {
             size = Integer.parseInt(request.getParameter("size"));
-        }
-        
-        model.addAttribute("convidados", convidados);
-        model.addAttribute("evento", evento );
-        model.addAttribute("convidado", cp.findAll(PageRequest.of(page, size)));      
-        System.out.println("--->" + evento.getConvidado().toString());
+        }        
+       
+        model.addAttribute("evento", evento );     
+        model.addAttribute("convidado", cp.findByEvento(evento, PageRequest.of(page, size)));             
 		
-		return "detalhesConvidado" ;
+	  return "detalhesConvidado" ;
 		
 	}
 		
 	
 	@RequestMapping(value="lista/convidado/{cod}", method=RequestMethod.POST)
-	public String detalhesParticipante (@PathVariable ("cod") long cod,  @Valid Convidado convidado, BindingResult result, RedirectAttributes attributes) {
+	public String detalhesParticipante  (@PathVariable ("cod") long cod,  @Valid Convidado convidado, BindingResult result, RedirectAttributes attributes){
 		
-		Evento evento = er.findByCod(cod);			
-		System.out.println("CONVIDADO: " + convidado);
-		try {
+		boolean flag = true;
+		Evento evento = er.findByCod(cod);	
+					
+		String verificarRg = convidado.getRg();
+		if (verificarRg == null) verificarRg = null;	
+		
+		//pega id do evento que estamos		[ok]
+		//pega o rg do convidado	[ok]
+		//vasculha no id do evento se existe esse rg [ok]  	
+		
+		try {				
+					
+			System.out.println("-> codigo deste evento: " + evento.getCod() + "\n-> VERIFICA RG: " + verificarRg );
+			
 			if (result.hasErrors()) {
 				attributes.addFlashAttribute("mensagem", "Algo está faltando! Por favor, verifique os campos!");
 			}
-			else {
-				convidado.setEvento(evento);
-				cr.save(convidado);	
-				er.save(evento);			
-				attributes.addFlashAttribute("mensagem","Cadastro realizado com êxito!");
+			else {						
+				Iterable<Convidado> convidados = cr.findByEvento(evento);
+				List<Convidado> listaConvidados = new ArrayList<>();		
+				convidados.forEach(listaConvidados :: add);				
+			
+				for (int i = 0; i < listaConvidados.size(); i++) {
+					System.out.println(i + 1 + ") RG DA VEZ -> " + listaConvidados.get(i).getRg() + "\nTAMANHO DA LISTA: " + listaConvidados.size());
+					if (verificarRg.equals(listaConvidados.get(i).getRg())) {									
+						flag = false; //rg existente neste evento
+						break;
+					}else flag = true; //rg inexistente neste evento						
+				}				
+				
+				if (flag == true) { //se RG não constar no evento ele pode ser cadastrado
+					convidado.setEvento(evento);
+					cr.save(convidado);	
+					er.save(evento);			
+					attributes.addFlashAttribute("mensagem","Cadastro realizado com êxito!");
+				}
+				else  attributes.addFlashAttribute("mensagem", "Este RG já consta neste evento!");			
+				
 			}		
 		} catch (Exception e) {			
-			attributes.addFlashAttribute("mensagem","Este RG já está em uso!");			
+			attributes.addFlashAttribute("mensagem","ERRO!" + e);			
 		}	
-		return "redirect:lista/convidado/{cod}";
+		return "redirect:/lista/convidado/{cod}";
 	}
 	
 	@RequestMapping("/deletarConvidado")
