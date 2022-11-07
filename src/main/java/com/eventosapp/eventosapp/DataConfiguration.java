@@ -1,11 +1,16 @@
 package com.eventosapp.eventosapp;
 
+<<<<<<< HEAD
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+=======
+import javax.sql.DataSource;
+
+>>>>>>> acf81d209420b7b96300f3b06547106dbf2780c6
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -42,6 +47,7 @@ public class DataConfiguration {
 		  adapter.setPrepareConnection(true);
 		  return adapter; 
 	 }
+<<<<<<< HEAD
 	 /*@Bean
 	    public BasicDataSource dataSource() throws URISyntaxException {
 	        URI dbUri = new URI(System.getenv("DATABASE_URL"));
@@ -57,5 +63,7 @@ public class DataConfiguration {
 
 	        return basicDataSource;
 	    }*/
+=======
+>>>>>>> acf81d209420b7b96300f3b06547106dbf2780c6
 }
 

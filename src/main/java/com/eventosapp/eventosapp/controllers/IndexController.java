@@ -9,6 +9,10 @@ public class IndexController {
 	
 	@RequestMapping(value="/ ", method = { RequestMethod.GET, RequestMethod.POST })
 	public String index() {
+<<<<<<< HEAD
 		return "index";
+=======
+		return "src/main/resources/templates/index";
+>>>>>>> acf81d209420b7b96300f3b06547106dbf2780c6
 	}
 }

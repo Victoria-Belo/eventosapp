@@ -69,6 +69,7 @@
    	<div aria-label="Pagination-sm #4a148c purple darken-4" th:if="${eventos.totalPages gt 0}">
 	    <ul class="pagination">
 		   <li class="page-item" th:classappend="${eventos.number eq 0} ? 'disabled'" >
+<<<<<<< HEAD
 	           <a class="page-link"
 	              th:href="@{/lista/evento?page={id}(id=${eventos.number lt 2 ? 1 : eventos.number})}"
 	              aria-label="Previous" title="Anterior" data-toggle="tooltip">              
@@ -85,6 +86,23 @@
 	          </a></li>
 	  	   </ul>
 		</div>
+=======
+            <a class="page-link"
+               th:href="@{/lista/evento?page={id}(id=${eventos.number lt 2 ? 1 : eventos.number})}"
+               aria-label="Previous" title="Anterior" data-toggle="tooltip">              
+		    <i class="material-icons">chevron_left</i></a></li>
+		    <li class="page-item" th:classappend="${i eq eventos.number + 1} ? 'active'"
+            th:each="i : ${#numbers.sequence( 1, eventos.totalPages, 1)}">
+            <a class="page-link" th:href="@{/lista/evento?page={id}(id=${i})}" th:text="${i}"
+               th:title="${'Page '+ i}" data-toggle="tooltip">1</a></li>
+		    
+		    <li class="page-item" th:classappend="${eventos.number + 1 eq eventos.totalPages} ? 'disabled'">
+            <a class="page-link" th:if="${eventos.number + 1 < eventos.totalPages}"
+               th:href="@{/lista/evento?page={id}(id=${eventos.number + 2})}"
+               aria-label="Next" title="Próximo" data-toggle="tooltip"><i class="material-icons">chevron_right</i></a></li>
+	  </ul>
+	</div>
+>>>>>>> acf81d209420b7b96300f3b06547106dbf2780c6
     <br><br>
     </div>    
   </div><br><br>  

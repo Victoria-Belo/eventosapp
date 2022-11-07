@@ -2,6 +2,7 @@ package com.eventosapp.eventosapp.models;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+<<<<<<< HEAD
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,13 +14,27 @@ import javax.validation.constraints.NotEmpty ;
 
 @Entity
 @Table(name = "convidado")
+=======
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty ;
+
+@Entity
+>>>>>>> acf81d209420b7b96300f3b06547106dbf2780c6
 public class Convidado implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
+<<<<<<< HEAD
 	 //cod é um Id no BD
 	@GeneratedValue(strategy=GenerationType.AUTO) //Cod é incrementado automaticamente
 	@Id
+=======
+	@Id //cod é um Id no BD
+	@GeneratedValue(strategy=GenerationType.AUTO) //Cod é incrementado automaticamente
+>>>>>>> acf81d209420b7b96300f3b06547106dbf2780c6
 	private long id;
 	
 	@NotEmpty
@@ -28,8 +43,12 @@ public class Convidado implements Serializable{
 	@NotEmpty
 	private String nomeConvidado;
 	
+<<<<<<< HEAD
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="cod", nullable=true)
+=======
+	@ManyToOne()
+>>>>>>> acf81d209420b7b96300f3b06547106dbf2780c6
 	private Evento evento;
 	
 	

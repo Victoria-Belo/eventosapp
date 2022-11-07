@@ -13,11 +13,17 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>eventosapp</name>
+<<<<<<< HEAD
 	<description>estudo de spring com CRUD</description>	
 	<properties>
 		<java.version>17</java.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 	 	<maven.compiler.target>1.8</maven.compiler.target>
+=======
+	<description>estudo de spring com CRUD</description>
+	<properties>
+		<java.version>18</java.version>
+>>>>>>> acf81d209420b7b96300f3b06547106dbf2780c6
 	</properties>
 	<dependencies>
 		<dependency>
@@ -66,6 +72,7 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>6.1.2.Final</version>
 		</dependency>
+<<<<<<< HEAD
 		
 		<!--HEROKU POSTGRRES-->
 		<dependency>
@@ -86,10 +93,18 @@
 
 	<build>
 		<plugins>		
+=======
+				
+	</dependencies>
+
+	<build>
+		<plugins>
+>>>>>>> acf81d209420b7b96300f3b06547106dbf2780c6
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+<<<<<<< HEAD
 			
 			
 			<plugin>
@@ -112,4 +127,9 @@
 			
 		</plugins>          
 	</build>
+=======
+		</plugins>          
+	</build>
+
+>>>>>>> acf81d209420b7b96300f3b06547106dbf2780c6
 </project>
